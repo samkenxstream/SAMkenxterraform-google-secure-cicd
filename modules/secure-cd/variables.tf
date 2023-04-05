@@ -42,13 +42,15 @@ variable "app_deploy_trigger_yaml" {
 variable "deploy_branch_clusters" {
   type = map(object({
     cluster               = string
+    anthos_membership     = string
     project_id            = string
     location              = string
     required_attestations = list(string)
     env_attestation       = string
     next_env              = string
+    target_type           = string
   }))
-  description = "mapping of branch names to cluster deployments"
+  description = "mapping of branch names to cluster deployments. target_type can be one of `gke`, `anthos_cluster`, or `run`. See [clouddeploy_target Terraform docs](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/clouddeploy_target) for more details"
   default     = {}
 }
 
@@ -78,4 +80,9 @@ variable "labels" {
   description = "A set of key/value label pairs to assign to the resources deployed by this blueprint."
   type        = map(string)
   default     = {}
+}
+
+variable "cloudbuild_service_account" {
+  description = "Cloud Build SA email address"
+  type        = string
 }
